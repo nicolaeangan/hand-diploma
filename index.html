@@ -1,625 +1,586 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EBHS Diploma — 90-Day Study Plan</title>
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
-    --bg: #ffffff;
-    --bg-secondary: #f5f4f0;
-    --bg-tertiary: #eeece7;
-    --text-primary: #1a1a18;
-    --text-secondary: #5f5e5a;
-    --text-tertiary: #888780;
-    --border: rgba(0,0,0,0.12);
-    --border-medium: rgba(0,0,0,0.22);
-    --radius-md: 8px;
-    --radius-lg: 12px;
-    --blue-50: #E6F1FB; --blue-600: #185FA5; --blue-800: #0C447C;
-    --teal-50: #E1F5EE; --teal-600: #0F6E56; --teal-800: #085041; --teal-400: #1D9E75;
-    --amber-50: #FAEEDA; --amber-600: #854F0B; --amber-800: #633806;
-    --purple-50: #EEEDFE; --purple-600: #534AB7; --purple-800: #3C3489;
-    --coral-50: #FAECE7; --coral-600: #993C1D;
-    --red-50: #FCEBEB; --red-600: #A32D2D;
-    --green-400: #639922;
-    --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #1c1c1a;
-      --bg-secondary: #252523;
-      --bg-tertiary: #2e2e2b;
-      --text-primary: #f0ede6;
-      --text-secondary: #a8a69e;
-      --text-tertiary: #6e6d68;
-      --border: rgba(255,255,255,0.1);
-      --border-medium: rgba(255,255,255,0.2);
-      --blue-50: #0c2540; --blue-600: #4a9de8; --blue-800: #b5d4f4;
-      --teal-50: #062a20; --teal-600: #2ec99a; --teal-800: #9fe1cb; --teal-400: #2ec99a;
-      --amber-50: #2a1c06; --amber-600: #f5c775; --amber-800: #faeeda;
-      --purple-50: #1a1840; --purple-600: #9f9aee; --purple-800: #cecbf6;
-      --coral-50: #2a1008; --coral-600: #f0997b;
-      --red-50: #2a0f0f; --red-600: #f09595;
-      --green-400: #97c459;
-    }
-  }
-
-  html { font-family: var(--font); background: var(--bg); color: var(--text-primary); line-height: 1.6; }
-
-  body { max-width: 860px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
-
-  /* Header */
-  .page-header { margin-bottom: 2rem; padding-bottom: 1.25rem; border-bottom: 0.5px solid var(--border); }
-  .page-header h1 { font-size: 22px; font-weight: 600; color: var(--text-primary); margin-bottom: 4px; }
-  .page-header p { font-size: 14px; color: var(--text-secondary); }
-  .header-meta { display: flex; gap: 12px; margin-top: 10px; flex-wrap: wrap; }
-  .meta-pill { font-size: 11px; padding: 3px 10px; border-radius: 20px; background: var(--bg-secondary); color: var(--text-secondary); border: 0.5px solid var(--border); }
-
-  /* Tabs */
-  .tabs { display: flex; gap: 4px; margin-bottom: 1.75rem; flex-wrap: wrap; }
-  .tab { padding: 7px 16px; border-radius: var(--radius-md); border: 0.5px solid var(--border); background: transparent; font-size: 13px; cursor: pointer; color: var(--text-secondary); font-family: var(--font); transition: all .15s; }
-  .tab:hover { background: var(--bg-secondary); color: var(--text-primary); }
-  .tab.active { background: var(--bg-secondary); color: var(--text-primary); border-color: var(--border-medium); font-weight: 500; }
-
-  /* Sections */
-  .section { display: none; }
-  .section.active { display: block; }
-
-  /* Metric grid */
-  .metric-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 1.5rem; }
-  .metric { background: var(--bg-secondary); border-radius: var(--radius-md); padding: 12px 14px; }
-  .metric-label { font-size: 10px; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 4px; }
-  .metric-val { font-size: 24px; font-weight: 600; color: var(--text-primary); }
-  .metric-sub { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
-
-  /* Exam info box */
-  .exam-box { background: var(--bg-secondary); border-radius: var(--radius-lg); padding: 16px; margin-bottom: 1.5rem; border-left: 3px solid var(--blue-600); }
-  .exam-box h3 { font-size: 14px; font-weight: 500; color: var(--text-primary); margin-bottom: 10px; }
-  .exam-row { display: flex; justify-content: space-between; font-size: 13px; padding: 5px 0; border-bottom: 0.5px solid var(--border); gap: 1rem; }
-  .exam-row:last-child { border: none; }
-  .exam-row span:first-child { color: var(--text-secondary); flex-shrink: 0; }
-  .exam-row span:last-child { color: var(--text-primary); font-weight: 500; text-align: right; }
-
-  /* Phase cards */
-  .phases { display: flex; flex-direction: column; gap: 10px; }
-  .phase { border: 0.5px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
-  .phase-header { padding: 13px 16px; display: flex; align-items: center; gap: 10px; cursor: pointer; user-select: none; background: var(--bg); transition: background .1s; }
-  .phase-header:hover { background: var(--bg-secondary); }
-  .phase-badge { border-radius: 6px; padding: 3px 10px; font-size: 11px; font-weight: 600; white-space: nowrap; }
-  .p1 .phase-badge { background: var(--blue-50); color: var(--blue-800); }
-  .p2 .phase-badge { background: var(--teal-50); color: var(--teal-800); }
-  .p3 .phase-badge { background: var(--amber-50); color: var(--amber-800); }
-  .p4 .phase-badge { background: var(--purple-50); color: var(--purple-800); }
-  .phase-title { font-size: 14px; font-weight: 500; color: var(--text-primary); flex: 1; }
-  .phase-days { font-size: 12px; color: var(--text-tertiary); white-space: nowrap; }
-  .chevron { font-size: 16px; color: var(--text-tertiary); transition: transform .2s; line-height: 1; }
-  .phase.open .chevron { transform: rotate(180deg); }
-  .phase-body { display: none; padding: 4px 16px 16px; }
-  .phase.open .phase-body { display: block; }
-
-  /* Weeks + topics */
-  .week { margin-bottom: 14px; }
-  .week-label { font-size: 11px; font-weight: 600; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: .05em; padding: 6px 0; border-bottom: 0.5px solid var(--border); margin-bottom: 8px; }
-  .topics { display: flex; flex-direction: column; gap: 5px; }
-  .topic { display: flex; align-items: flex-start; gap: 10px; padding: 9px 10px; border-radius: var(--radius-md); background: var(--bg-secondary); cursor: pointer; transition: background .1s; border: 0.5px solid transparent; }
-  .topic:hover { border-color: var(--border); }
-  .check { width: 16px; height: 16px; border-radius: 4px; border: 1.5px solid var(--border-medium); flex-shrink: 0; margin-top: 1px; display: flex; align-items: center; justify-content: center; transition: all .15s; }
-  .check.done { background: var(--teal-400); border-color: var(--teal-400); }
-  .check.done::after { content: '✓'; color: #fff; font-size: 10px; font-weight: 700; line-height: 1; }
-  .topic-body { flex: 1; }
-  .topic-title { font-size: 13px; color: var(--text-primary); line-height: 1.4; }
-  .tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 5px; }
-  .tag { font-size: 10px; padding: 2px 7px; border-radius: 20px; font-weight: 600; }
-  .tag-mcq { background: var(--blue-50); color: var(--blue-600); }
-  .tag-oral { background: var(--amber-50); color: var(--amber-600); }
-  .tag-hy { background: var(--red-50); color: var(--red-600); }
-  .tag-anat { background: var(--purple-50); color: var(--purple-600); }
-
-  /* Progress bar */
-  .progress-wrap { margin-bottom: 1.25rem; }
-  .progress-meta { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-secondary); margin-bottom: 5px; }
-  .progress-track { height: 5px; background: var(--bg-tertiary); border-radius: 3px; overflow: hidden; }
-  .progress-fill { height: 100%; background: var(--teal-400); border-radius: 3px; transition: width .3s; }
-
-  /* Topic summary cards */
-  .summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; margin-bottom: 1.5rem; }
-
-  /* Reset button */
-  .btn-reset { font-size: 12px; padding: 5px 12px; border-radius: var(--radius-md); border: 0.5px solid var(--border-medium); background: transparent; color: var(--text-secondary); cursor: pointer; font-family: var(--font); margin-bottom: 1rem; transition: background .1s; }
-  .btn-reset:hover { background: var(--bg-secondary); color: var(--text-primary); }
-
-  /* Daily structure */
-  .day-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(185px, 1fr)); gap: 10px; margin-bottom: 1.25rem; }
-  .day-card { background: var(--bg-secondary); border-radius: var(--radius-md); padding: 13px; }
-  .day-card-title { font-size: 11px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 9px; }
-  .day-card ul { list-style: none; display: flex; flex-direction: column; gap: 5px; }
-  .day-card li { font-size: 12px; color: var(--text-primary); display: flex; align-items: flex-start; gap: 7px; line-height: 1.4; }
-  .day-card li::before { content: ''; width: 4px; height: 4px; border-radius: 50%; background: var(--text-tertiary); flex-shrink: 0; margin-top: 6px; }
-  .tip-box { background: var(--bg-secondary); border-radius: var(--radius-lg); padding: 14px 16px; border-left: 3px solid var(--coral-600); margin-top: 1rem; }
-  .tip-box strong { font-size: 13px; font-weight: 600; display: block; margin-bottom: 5px; color: var(--text-primary); }
-  .tip-box p { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
-
-  /* Resources */
-  .res-section { margin-bottom: 1.5rem; }
-  .res-section h3 { font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 10px; }
-  .res-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(195px, 1fr)); gap: 8px; }
-  .res-card { background: var(--bg-secondary); border-radius: var(--radius-md); padding: 11px 13px; border: 0.5px solid var(--border); }
-  .res-title { font-size: 13px; font-weight: 500; color: var(--text-primary); }
-  .res-sub { font-size: 11px; color: var(--text-secondary); margin-top: 3px; line-height: 1.4; }
-
-  /* Phase summary in overview */
-  .phase-overview-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(185px, 1fr)); gap: 8px; margin-top: 0; }
-  .phase-overview-card { border-radius: var(--radius-md); padding: 11px 13px; border: 0.5px solid var(--border); background: var(--bg-secondary); }
-  .phase-overview-card .poc-label { font-size: 11px; font-weight: 600; margin-bottom: 3px; }
-  .phase-overview-card .poc-desc { font-size: 12px; color: var(--text-secondary); }
-  .poc-p1 .poc-label { color: var(--blue-600); }
-  .poc-p2 .poc-label { color: var(--teal-600); }
-  .poc-p3 .poc-label { color: var(--amber-600); }
-  .poc-p4 .poc-label { color: var(--purple-600); }
-
-  .section-heading { font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 10px; margin-top: 1.5rem; }
-
-  a { color: var(--blue-600); text-decoration: none; }
-  a:hover { text-decoration: underline; }
-
-  @media (max-width: 480px) {
-    body { padding: 1rem 1rem 3rem; }
-    .page-header h1 { font-size: 18px; }
-    .phase-title { font-size: 13px; }
-    .tabs { gap: 3px; }
-    .tab { padding: 6px 10px; font-size: 12px; }
-  }
-</style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Upper Limb Atlas — Upper limb surgery reference</title>
+    <meta name="description" content="A cross-linked reference on upper limb surgery. Sample template content.">
+    <script>try { var t = localStorage.getItem("ula-theme"); if (t) document.documentElement.setAttribute("data-theme", t) } catch (e) { }</script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+    <link rel="stylesheet" href="assets/style.css">
 </head>
-<body>
 
-<header class="page-header">
-  <h1>EBHS Diploma — 90-Day Study Plan</h1>
-  <p>European Board of Hand Surgery · Structured preparation for MCQ and oral examinations</p>
-  <div class="header-meta">
-    <span class="meta-pill">Based on FESSH / EBHS curriculum</span>
-    <span class="meta-pill">90 days · 4 phases · 12 topic blocks</span>
-    <span class="meta-pill">MCQ + 2 × 40-min oral</span>
-  </div>
-</header>
-
-<nav class="tabs" role="tablist">
-  <button class="tab active" role="tab" onclick="show('overview',this)">Overview</button>
-  <button class="tab" role="tab" onclick="show('schedule',this)">Schedule</button>
-  <button class="tab" role="tab" onclick="show('topics',this)">Topic tracker</button>
-  <button class="tab" role="tab" onclick="show('daily',this)">Daily structure</button>
-  <button class="tab" role="tab" onclick="show('resources',this)">Resources</button>
-</nav>
-
-<!-- ======================================================= OVERVIEW -->
-<section id="overview" class="section active">
-
-  <div class="metric-grid">
-    <div class="metric"><div class="metric-label">Total days</div><div class="metric-val">90</div><div class="metric-sub">~3 months</div></div>
-    <div class="metric"><div class="metric-label">Topic blocks</div><div class="metric-val">12</div><div class="metric-sub">Core modules</div></div>
-    <div class="metric"><div class="metric-label">Study phases</div><div class="metric-val">4</div><div class="metric-sub">Foundation → Mock</div></div>
-    <div class="metric"><div class="metric-label">Exam format</div><div class="metric-val">MCQ</div><div class="metric-sub">+ 2 × 40 min oral</div></div>
-  </div>
-
-  <div class="exam-box">
-    <h3>Exam structure</h3>
-    <div class="exam-row"><span>Part 1 (written)</span><span>60 true/false MCQs — online</span></div>
-    <div class="exam-row"><span>Passing score</span><span>Group mean minus ≤1 SD, min 50%</span></div>
-    <div class="exam-row"><span>Part 2 (oral)</span><span>2 × 40 min with 2 examiners each</span></div>
-    <div class="exam-row"><span>Oral topics</span><span>Trauma · Reconstructive · Systemic · Congenital</span></div>
-    <div class="exam-row"><span>Official language</span><span>English</span></div>
-    <div class="exam-row"><span>Typical timeline</span><span>March (written) → June (oral, FESSH Congress)</span></div>
-    <div class="exam-row"><span>More info</span><span><a href="https://fessh.com/examination-committee/ebhs-diploma-examination/" target="_blank">fessh.com/examination-committee</a></span></div>
-  </div>
-
-  <p class="section-heading">Four study phases</p>
-  <div class="phase-overview-grid">
-    <div class="phase-overview-card poc-p1"><div class="poc-label">Phase 1 · Days 1–21</div><div class="poc-desc">Basic science, anatomy & imaging foundations</div></div>
-    <div class="phase-overview-card poc-p2"><div class="poc-label">Phase 2 · Days 22–54</div><div class="poc-desc">Trauma, fractures, tendon & reconstructive surgery</div></div>
-    <div class="phase-overview-card poc-p3"><div class="poc-label">Phase 3 · Days 55–78</div><div class="poc-desc">Nerve, microsurgery, systemic conditions & congenital</div></div>
-    <div class="phase-overview-card poc-p4"><div class="poc-label">Phase 4 · Days 79–90</div><div class="poc-desc">Consolidation, MCQ mock sittings & oral preparation</div></div>
-  </div>
-
-  <p class="section-heading">Tag legend</p>
-  <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:1rem">
-    <span class="tag tag-mcq">MCQ — likely tested in written part</span>
-    <span class="tag tag-oral">oral — core oral examination topic</span>
-    <span class="tag tag-hy">high yield — appears in both parts</span>
-    <span class="tag tag-anat">anatomy — basic science focus</span>
-  </div>
-
-</section>
-
-<!-- ======================================================= SCHEDULE -->
-<section id="schedule" class="section">
-<div class="phases">
-
-  <!-- PHASE 1 -->
-  <div class="phase p1" id="ph1">
-    <div class="phase-header" onclick="togglePhase('ph1')" aria-expanded="false">
-      <span class="phase-badge">Phase 1 · Days 1–21</span>
-      <span class="phase-title">Foundations: anatomy, basic science &amp; imaging</span>
-      <span class="phase-days">3 weeks</span>
-      <span class="chevron" aria-hidden="true">▾</span>
-    </div>
-    <div class="phase-body">
-      <div class="week">
-        <div class="week-label">Week 1 · Days 1–7 — Anatomy &amp; embryology</div>
-        <div class="topics">
-          <div class="topic" onclick="toggle(this)"><div class="check"></div><div class="topic-body"><div class="topic-title">Bones &amp; joints: carpals, metacarpals, phalanges — normal and variant anatomy</div><div class="tags"><span class="tag tag-anat">anatomy</span><span class="tag tag-mcq">MCQ</span></div></div></div>
-          <div class="topic" onclick="toggle(this)"><div class="check"></div><div class="topic-body"><div class="topic-title">Musculotendinous anatomy — extrinsic and intrinsic muscles, pulleys</div><div class="tags"><span class="tag tag-anat">anatomy</span><span class="tag tag-mcq">MCQ</span></div></div></div>
-          <div class="topic" onclick="toggle(this)"><div class="check"></div><div class="topic-body"><div class="topic-title">Vascular anatomy — radial and ulnar arteries, superficial and deep palmar arches, digital vessels</div><div class="tags"><span class="tag tag-anat">anatomy</span><span class="tag tag-mcq">MCQ</span><span class="tag tag-hy">high yield</span></div></div></div>
-          <div class="topic" onclick="toggle(this)"><div class="check"></div><div class="topic-body"><div class="topic-title">Peripheral nerve anatomy — median, ulnar, radial, AIN, PIN, sensory branches</div><div class="tags"><span class="tag tag-anat">anatomy</span><span class="tag tag-mcq">MCQ</span><span class="tag tag-hy">high yield</span></div></div></div>
-          <div class="topic" onclick="toggle(this)"><div class="check"></div><div class="topic-body"><div class="topic-title">Embryology of the hand and upper limb — limb bud development, failure of formation</div><div class="tags"><span class="tag tag-anat">anatomy</span><span class="tag tag-mcq">MCQ</span></div></div></div>
+<body data-root=""><a class="skip" href="#main">Skip to content</a>
+    <header class="site-header">
+        <div class="wrap"><a class="brand" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true">
+                    <g stroke="currentColor" stroke-width="1.4" opacity=".55" fill="none">
+                        <path d="M8 9 16 17 24 8M16 17 7 25M16 17 25 25" />
+                    </g>
+                    <circle cx="8" cy="9" r="3.5" fill="var(--c-shoulder)" />
+                    <circle cx="24" cy="8" r="3.5" fill="var(--c-elbow)" />
+                    <circle cx="16" cy="17" r="4.2" fill="var(--accent)" />
+                    <circle cx="7" cy="25" r="3.2" fill="var(--c-hand)" />
+                    <circle cx="25" cy="25" r="3.2" fill="var(--c-wrist)" />
+                </svg><span>OrthoGraph</span></a>
+            <nav class="nav" aria-label="Primary"><a href="diploma.html#articles">Diploma</a><a href="index.html#articles">Articles</a><a href="graph.html">Network
+                    graph</a><a href="index.html#topics">Topics</a><a href="index.html#notice">Notice</a></nav><button
+                class="icon-btn" id="theme" aria-label="Toggle light / dark theme"><svg viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+                    <circle cx="12" cy="12" r="4.2" />
+                    <path
+                        d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6" />
+                </svg></button>
         </div>
-      </div>
-      <div class="week">
-        <div class="week-label">Week 2 · Days 8–14 — Physiology &amp; basic science</div>
-        <div class="topics">
-          <div class="topic" onclick="toggle(this)"><div class="check"></div><div class="topic-body"><div class="topic-title">Tendon physiology — healing, flexor zones I–V, vascularity, pulley system biomechanics</div><div class="tags"><span class="tag tag-mcq">MCQ</span><span class="tag tag-oral">oral</span><span class="tag tag-hy">high yield</span></div></div></div>
-          <div class="topic" onclick="toggle(this)"><div class="check"></div><div class="topic-body"><div class="topic-title">Nerve physiology — Wallerian degeneration, Seddon and Sunderland classifications, nerve regeneration</div><div class="tags"><span class="tag tag-mcq">MCQ</span><span class="tag tag-hy">high yield</span></div></div></div>
-          <div class="topic" onclick="toggle(this)"><div class="check"></div><div class="topic-body"><div class="topic-title">Bone biology — fracture healing, primary vs secondary, growth plate, bone metabolism</div><div class="tags"><span class="tag tag-mcq">MCQ</span></div></div></div>
-          <div class="topic" onclick="toggle(this)"><div class="check"></div><div class="topic-body"><div class="topic-title">Microcirculation and blood perfusion — ischaemia-reperfusion injury, tourniquet physiology</div><div class="tags"><span class="tag tag-anat">anatomy</span><span class="tag tag-mcq">MCQ</span></div></div></div>
-          <div class="topic" onclick="toggle(this)"><div class="check"></div><div class="topic-body"><div class="topic-title">Joint anatomy and biomechanics — CMC, MCP, PIP, DIP, radiocarpal, DRUJ</div><div class="tags"><span class="tag tag-anat">anatomy</span><span class="tag tag-mcq">MCQ</span></div></div></div>
+    </header>
+    <main id="main">
+        <section class="hero">
+            <div class="wrap"><span class="eyebrow">OrthoGraph · Evidence atlas</span>
+               <!-- <h1>OrthoGraph <em>Atlas</em></h1>-->
+                <p class="lede">A cross-linked reference covering the shoulder, elbow, wrist, hand and nerve
+                    reconstruction. 26 articles, 29 topic cards and 260 connections, explorable as a list or as a live
+                    network.</p>
+                <form class="search" role="search" onsubmit="return false"><svg viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                        <circle cx="11" cy="11" r="6.5" />
+                        <path d="m16 16 4.5 4.5" />
+                    </svg><label class="sr-only" for="q">Search articles</label><input id="q" type="search"
+                        placeholder="Search conditions, procedures, structures…" autocomplete="off"></form>
+                <div class="stats">
+                    <div class="stat"><b data-count="26">26</b><span>Articles</span></div>
+                    <div class="stat"><b data-count="16">16</b><span>Conditions</span></div>
+                    <div class="stat"><b data-count="7">7</b><span>Procedures</span></div>
+                    <div class="stat"><b data-count="29">29</b><span>Topic cards</span></div>
+                    <div class="stat"><b data-count="260">260</b><span>Connections</span></div>
+                </div>
+            </div>
+        </section>
+        <section class="block" id="articles">
+            <div class="wrap">
+                <div class="sec-head">
+                    <div><span class="eyebrow">Key articles</span>
+                        <h2>Browse the atlas</h2>
+                    </div><a class="more" href="graph.html">See how they connect →</a>
+                </div>
+                <div class="toolbar">
+                    <div class="chips" id="region-chips"><button class="chip" aria-pressed="true" data-cat="all">All
+                            regions</button><button class="chip" aria-pressed="false" data-cat="shoulder"
+                            style="--dot:var(--c-shoulder)"><span class="dot"></span>Shoulder</button><button
+                            class="chip" aria-pressed="false" data-cat="elbow" style="--dot:var(--c-elbow)"><span
+                                class="dot"></span>Elbow</button><button class="chip" aria-pressed="false"
+                            data-cat="wrist" style="--dot:var(--c-wrist)"><span class="dot"></span>Wrist</button><button
+                            class="chip" aria-pressed="false" data-cat="hand" style="--dot:var(--c-hand)"><span
+                                class="dot"></span>Hand</button><button class="chip" aria-pressed="false"
+                            data-cat="reconstruction" style="--dot:var(--c-reconstruction)"><span
+                                class="dot"></span>Reconstruction</button></div><span class="active-filter"
+                        id="active-filter"><span class="chip on">Card: <b id="af-label"></b></span><button class="chip"
+                            id="af-clear">Clear ×</button></span><label class="sr-only" for="sort">Sort</label><select
+                        class="select" id="sort">
+                        <option value="new">Newest first</option>
+                        <option value="az">A to Z</option>
+                        <option value="conn">Most connected</option>
+                    </select>
+                </div>
+                <div class="count-note" id="count" aria-live="polite"></div>
+                <div class="grid" id="card-list"><a class="card" href="articles/postoperative-hand-therapy.html"
+                        style="--dot:var(--c-reconstruction)" data-slug="postoperative-hand-therapy"
+                        data-cat="reconstruction"
+                        data-tags="rehab tendons shoulder hand nonoperative nerve-surgery tendon-transfer"
+                        data-title="Post-operative Rehabilitation and Hand Therapy" data-date="2026-10-20"
+                        data-conn="16"
+                        data-search="post-operative rehabilitation and hand therapy phased rehabilitation principles that link surgery, splinting, scar management and return to work or sport. rehabilitation tendons shoulder hand non-operative nerve surgery tendon transfer reconstruction">
+                        <div class="top"><span class="tag-pill"><span
+                                    class="dot"></span>Reconstruction</span><span>Technique</span><span>·
+                                2026-10-20</span></div>
+                        <h3>Post-operative Rehabilitation and Hand Therapy</h3>
+                        <p>Phased rehabilitation principles that link surgery, splinting, scar management and return to
+                            work or sport.</p>
+                        <div class="meta"><span>2 min read</span><span>7 cards</span><span>16 strongly related</span>
+                        </div>
+                    </a><a class="card" href="articles/replantation-and-microsurgery.html"
+                        style="--dot:var(--c-reconstruction)" data-slug="replantation-and-microsurgery"
+                        data-cat="reconstruction"
+                        data-tags="hand microsurgery trauma fixation nerve-surgery tendons rehab"
+                        data-title="Replantation and Hand Microsurgery" data-date="2026-10-06" data-conn="17"
+                        data-search="replantation and hand microsurgery indications for digit and hand replantation, the order of repair and post-operative monitoring. hand microsurgery trauma fixation nerve surgery tendons rehabilitation reconstruction">
+                        <div class="top"><span class="tag-pill"><span
+                                    class="dot"></span>Reconstruction</span><span>Procedure</span><span>·
+                                2026-10-06</span></div>
+                        <h3>Replantation and Hand Microsurgery</h3>
+                        <p>Indications for digit and hand replantation, the order of repair and post-operative
+                            monitoring.</p>
+                        <div class="meta"><span>2 min read</span><span>7 cards</span><span>17 strongly related</span>
+                        </div>
+                    </a><a class="card" href="articles/tendon-transfers-radial-nerve-palsy.html"
+                        style="--dot:var(--c-reconstruction)" data-slug="tendon-transfers-radial-nerve-palsy"
+                        data-cat="reconstruction"
+                        data-tags="radial-nerve tendon-transfer tendons wrist hand rehab trauma"
+                        data-title="Tendon Transfers for Radial Nerve Palsy" data-date="2026-09-22" data-conn="13"
+                        data-search="tendon transfers for radial nerve palsy restoring wrist, finger and thumb extension with pronator teres, flexor carpi and palmaris longus transfers. radial nerve tendon transfer tendons wrist hand rehabilitation trauma reconstruction">
+                        <div class="top"><span class="tag-pill"><span
+                                    class="dot"></span>Reconstruction</span><span>Procedure</span><span>·
+                                2026-09-22</span></div>
+                        <h3>Tendon Transfers for Radial Nerve Palsy</h3>
+                        <p>Restoring wrist, finger and thumb extension with pronator teres, flexor carpi and palmaris
+                            longus transfers.</p>
+                        <div class="meta"><span>2 min read</span><span>7 cards</span><span>13 strongly related</span>
+                        </div>
+                    </a><a class="card" href="articles/wrist-arthroscopy.html" style="--dot:var(--c-wrist)"
+                        data-slug="wrist-arthroscopy" data-cat="wrist"
+                        data-tags="wrist carpus radius arthroscopy instability fracture arthritis"
+                        data-title="Wrist Arthroscopy: Indications and Technique" data-date="2026-09-14" data-conn="8"
+                        data-search="wrist arthroscopy: indications and technique portals, set-up and the expanding indications from diagnostic assessment to fracture-assisted fixation. wrist carpus radius arthroscopy instability fracture arthritis wrist">
+                        <div class="top"><span class="tag-pill"><span
+                                    class="dot"></span>Wrist</span><span>Technique</span><span>· 2026-09-14</span></div>
+                        <h3>Wrist Arthroscopy: Indications and Technique</h3>
+                        <p>Portals, set-up and the expanding indications from diagnostic assessment to fracture-assisted
+                            fixation.</p>
+                        <div class="meta"><span>2 min read</span><span>7 cards</span><span>8 strongly related</span>
+                        </div>
+                    </a><a class="card" href="articles/nerve-transfers-upper-limb.html"
+                        style="--dot:var(--c-reconstruction)" data-slug="nerve-transfers-upper-limb"
+                        data-cat="reconstruction"
+                        data-tags="brachial-plexus nerve-surgery microsurgery ulnar-nerve median-nerve elbow"
+                        data-title="Nerve Transfers in the Upper Limb" data-date="2026-09-08" data-conn="4"
+                        data-search="nerve transfers in the upper limb re-routing expendable donors close to the target muscle: oberlin, spinal accessory to suprascapular, and distal transfers. brachial plexus nerve surgery microsurgery ulnar nerve median nerve elbow reconstruction">
+                        <div class="top"><span class="tag-pill"><span
+                                    class="dot"></span>Reconstruction</span><span>Technique</span><span>·
+                                2026-09-08</span></div>
+                        <h3>Nerve Transfers in the Upper Limb</h3>
+                        <p>Re-routing expendable donors close to the target muscle: Oberlin, spinal accessory to
+                            suprascapular, and distal transfers.</p>
+                        <div class="meta"><span>2 min read</span><span>6 cards</span><span>4 strongly related</span>
+                        </div>
+                    </a><a class="card" href="articles/brachial-plexus-injuries.html"
+                        style="--dot:var(--c-reconstruction)" data-slug="brachial-plexus-injuries"
+                        data-cat="reconstruction"
+                        data-tags="brachial-plexus nerve-surgery trauma microsurgery tendon-transfer rehab"
+                        data-title="Brachial Plexus Injuries" data-date="2026-09-01" data-conn="6"
+                        data-search="brachial plexus injuries mechanisms, root avulsion, timing of exploration and a reconstructive ladder from nerve transfer to functional muscle transfer. brachial plexus nerve surgery trauma microsurgery tendon transfer rehabilitation reconstruction">
+                        <div class="top"><span class="tag-pill"><span
+                                    class="dot"></span>Reconstruction</span><span>Condition</span><span>·
+                                2026-09-01</span></div>
+                        <h3>Brachial Plexus Injuries</h3>
+                        <p>Mechanisms, root avulsion, timing of exploration and a reconstructive ladder from nerve
+                            transfer to functional muscle transfer.</p>
+                        <div class="meta"><span>2 min read</span><span>6 cards</span><span>6 strongly related</span>
+                        </div>
+                    </a><a class="card" href="articles/flexor-tendon-repair.html" style="--dot:var(--c-hand)"
+                        data-slug="flexor-tendon-repair" data-cat="hand"
+                        data-tags="hand tendons trauma rehab median-nerve" data-title="Flexor Tendon Repair"
+                        data-date="2026-08-24" data-conn="11"
+                        data-search="flexor tendon repair zones of injury, core suture principles and early mobilisation protocols that balance gliding against rupture. hand tendons trauma rehabilitation median nerve hand">
+                        <div class="top"><span class="tag-pill"><span
+                                    class="dot"></span>Hand</span><span>Procedure</span><span>· 2026-08-24</span></div>
+                        <h3>Flexor Tendon Repair</h3>
+                        <p>Zones of injury, core suture principles and early mobilisation protocols that balance gliding
+                            against rupture.</p>
+                        <div class="meta"><span>2 min read</span><span>5 cards</span><span>11 strongly related</span>
+                        </div>
+                    </a><a class="card" href="articles/thumb-cmc-arthritis.html" style="--dot:var(--c-hand)"
+                        data-slug="thumb-cmc-arthritis" data-cat="hand"
+                        data-tags="hand arthritis arthroplasty degenerative nonoperative arthroscopy tendons"
+                        data-title="Thumb Carpometacarpal Arthritis" data-date="2026-08-17" data-conn="15"
+                        data-search="thumb carpometacarpal arthritis basal thumb osteoarthritis: staging, conservative options and trapeziectomy versus arthroplasty. hand arthritis arthroplasty degenerative non-operative arthroscopy tendons hand">
+                        <div class="top"><span class="tag-pill"><span
+                                    class="dot"></span>Hand</span><span>Condition</span><span>· 2026-08-17</span></div>
+                        <h3>Thumb Carpometacarpal Arthritis</h3>
+                        <p>Basal thumb osteoarthritis: staging, conservative options and trapeziectomy versus
+                            arthroplasty.</p>
+                        <div class="meta"><span>2 min read</span><span>7 cards</span><span>15 strongly related</span>
+                        </div>
+                    </a><a class="card" href="articles/trigger-finger.html" style="--dot:var(--c-hand)"
+                        data-slug="trigger-finger" data-cat="hand"
+                        data-tags="hand tendons tendinopathy degenerative nonoperative" data-title="Trigger Finger"
+                        data-date="2026-08-10" data-conn="9"
+                        data-search="trigger finger stenosing tenosynovitis of the a1 pulley: injection first, release when it persists. hand tendons tendinopathy degenerative non-operative hand">
+                        <div class="top"><span class="tag-pill"><span
+                                    class="dot"></span>Hand</span><span>Condition</span><span>· 2026-08-10</span></div>
+                        <h3>Trigger Finger</h3>
+                        <p>Stenosing tenosynovitis of the A1 pulley: injection first, release when it persists.</p>
+                        <div class="meta"><span>2 min read</span><span>5 cards</span><span>9 strongly related</span>
+                        </div>
+                    </a><a class="card" href="articles/dupuytren-contracture.html" style="--dot:var(--c-hand)"
+                        data-slug="dupuytren-contracture" data-cat="hand"
+                        data-tags="hand tendons degenerative nonoperative rehab" data-title="Dupuytren Contracture"
+                        data-date="2026-08-03" data-conn="10"
+                        data-search="dupuytren contracture palmar fascia fibromatosis: timing of treatment and the spectrum from needle fasciotomy to dermofasciectomy. hand tendons degenerative non-operative rehabilitation hand">
+                        <div class="top"><span class="tag-pill"><span
+                                    class="dot"></span>Hand</span><span>Condition</span><span>· 2026-08-03</span></div>
+                        <h3>Dupuytren Contracture</h3>
+                        <p>Palmar fascia fibromatosis: timing of treatment and the spectrum from needle fasciotomy to
+                            dermofasciectomy.</p>
+                        <div class="meta"><span>2 min read</span><span>5 cards</span><span>10 strongly related</span>
+                        </div>
+                    </a><a class="card" href="articles/carpal-tunnel-syndrome.html" style="--dot:var(--c-hand)"
+                        data-slug="carpal-tunnel-syndrome" data-cat="hand"
+                        data-tags="hand wrist median-nerve nerve-compression nerve-surgery nonoperative tendon-transfer"
+                        data-title="Carpal Tunnel Syndrome and Release" data-date="2026-07-27" data-conn="12"
+                        data-search="carpal tunnel syndrome and release median nerve compression: diagnosis, splinting and injection, and open versus endoscopic release. hand wrist median nerve nerve compression nerve surgery non-operative tendon transfer hand">
+                        <div class="top"><span class="tag-pill"><span
+                                    class="dot"></span>Hand</span><span>Condition</span><span>· 2026-07-27</span></div>
+                        <h3>Carpal Tunnel Syndrome and Release</h3>
+                        <p>Median nerve compression: diagnosis, splinting and injection, and open versus endoscopic
+                            release.</p>
+                        <div class="meta"><span>2 min read</span><span>7 cards</span><span>12 strongly related</span>
+                        </div>
+                    </a><a class="card" href="articles/tfcc-injuries.html" style="--dot:var(--c-wrist)"
+                        data-slug="tfcc-injuries" data-cat="wrist"
+                        data-tags="wrist carpus radius arthroscopy instability trauma"
+                        data-title="TFCC Injuries and Ulnar-sided Wrist Pain" data-date="2026-07-20" data-conn="8"
+                        data-search="tfcc injuries and ulnar-sided wrist pain palmer classification, druj stability and the arthroscopic repair techniques for the triangular fibrocartilage complex. wrist carpus radius arthroscopy instability trauma wrist">
+                        <div class="top"><span class="tag-pill"><span
+                                    class="dot"></span>Wrist</span><span>Condition</span><span>· 2026-07-20</span></div>
+                        <h3>TFCC Injuries and Ulnar-sided Wrist Pain</h3>
+                        <p>Palmer classification, DRUJ stability and the arthroscopic repair techniques for the
+                            triangular fibrocartilage complex.</p>
+                        <div class="meta"><span>2 min read</span><span>6 cards</span><span>8 strongly related</span>
+                        </div>
+                    </a><a class="card" href="articles/scaphoid-fractures-and-nonunion.html"
+                        style="--dot:var(--c-wrist)" data-slug="scaphoid-fractures-and-nonunion" data-cat="wrist"
+                        data-tags="wrist carpus fracture fixation trauma nonoperative arthritis"
+                        data-title="Scaphoid Fractures and Non-union" data-date="2026-07-06" data-conn="14"
+                        data-search="scaphoid fractures and non-union a fracture with a precarious blood supply: occult injuries, screw fixation and vascularised bone grafting for non-union. wrist carpus fracture fixation trauma non-operative arthritis wrist">
+                        <div class="top"><span class="tag-pill"><span
+                                    class="dot"></span>Wrist</span><span>Condition</span><span>· 2026-07-06</span></div>
+                        <h3>Scaphoid Fractures and Non-union</h3>
+                        <p>A fracture with a precarious blood supply: occult injuries, screw fixation and vascularised
+                            bone grafting for non-union.</p>
+                        <div class="meta"><span>2 min read</span><span>7 cards</span><span>14 strongly related</span>
+                        </div>
+                    </a><a class="card" href="articles/distal-radius-fractures.html" style="--dot:var(--c-wrist)"
+                        data-slug="distal-radius-fractures" data-cat="wrist"
+                        data-tags="wrist radius fracture fixation trauma nonoperative median-nerve"
+                        data-title="Distal Radius Fractures" data-date="2026-06-22" data-conn="13"
+                        data-search="distal radius fractures the most common upper limb fracture: radiographic parameters, cast versus plate, and the older-adult evidence. wrist radius fracture fixation trauma non-operative median nerve wrist">
+                        <div class="top"><span class="tag-pill"><span
+                                    class="dot"></span>Wrist</span><span>Condition</span><span>· 2026-06-22</span></div>
+                        <h3>Distal Radius Fractures</h3>
+                        <p>The most common upper limb fracture: radiographic parameters, cast versus plate, and the
+                            older-adult evidence.</p>
+                        <div class="meta"><span>2 min read</span><span>7 cards</span><span>13 strongly related</span>
+                        </div>
+                    </a><a class="card" href="articles/cubital-tunnel-syndrome.html" style="--dot:var(--c-elbow)"
+                        data-slug="cubital-tunnel-syndrome" data-cat="elbow"
+                        data-tags="elbow ulnar-nerve nerve-compression nerve-surgery nonoperative"
+                        data-title="Cubital Tunnel Syndrome" data-date="2026-06-08" data-conn="4"
+                        data-search="cubital tunnel syndrome ulnar nerve compression at the elbow: when to splint, and decompression versus transposition. elbow ulnar nerve nerve compression nerve surgery non-operative elbow">
+                        <div class="top"><span class="tag-pill"><span
+                                    class="dot"></span>Elbow</span><span>Condition</span><span>· 2026-06-08</span></div>
+                        <h3>Cubital Tunnel Syndrome</h3>
+                        <p>Ulnar nerve compression at the elbow: when to splint, and decompression versus transposition.
+                        </p>
+                        <div class="meta"><span>2 min read</span><span>5 cards</span><span>4 strongly related</span>
+                        </div>
+                    </a><a class="card" href="articles/terrible-triad-elbow-injury.html" style="--dot:var(--c-elbow)"
+                        data-slug="terrible-triad-elbow-injury" data-cat="elbow"
+                        data-tags="elbow radius fracture instability fixation arthroplasty trauma"
+                        data-title="Terrible Triad Injury of the Elbow" data-date="2026-05-25" data-conn="11"
+                        data-search="terrible triad injury of the elbow elbow dislocation with radial head and coronoid fractures: a stepwise fixation sequence and the aim of early motion. elbow radius fracture instability fixation arthroplasty trauma elbow">
+                        <div class="top"><span class="tag-pill"><span
+                                    class="dot"></span>Elbow</span><span>Procedure</span><span>· 2026-05-25</span></div>
+                        <h3>Terrible Triad Injury of the Elbow</h3>
+                        <p>Elbow dislocation with radial head and coronoid fractures: a stepwise fixation sequence and
+                            the aim of early motion.</p>
+                        <div class="meta"><span>2 min read</span><span>7 cards</span><span>11 strongly related</span>
+                        </div>
+                    </a><a class="card" href="articles/lateral-epicondylitis.html" style="--dot:var(--c-elbow)"
+                        data-slug="lateral-epicondylitis" data-cat="elbow"
+                        data-tags="elbow tendons tendinopathy nonoperative rehab radial-nerve"
+                        data-title="Lateral Epicondylitis (Tennis Elbow)" data-date="2026-05-11" data-conn="11"
+                        data-search="lateral epicondylitis (tennis elbow) a tendinopathy of the extensor carpi radialis brevis origin: what works, what does not, and the differentials that get missed. elbow tendons tendinopathy non-operative rehabilitation radial nerve elbow">
+                        <div class="top"><span class="tag-pill"><span
+                                    class="dot"></span>Elbow</span><span>Condition</span><span>· 2026-05-11</span></div>
+                        <h3>Lateral Epicondylitis (Tennis Elbow)</h3>
+                        <p>A tendinopathy of the extensor carpi radialis brevis origin: what works, what does not, and
+                            the differentials that get missed.</p>
+                        <div class="meta"><span>2 min read</span><span>6 cards</span><span>11 strongly related</span>
+                        </div>
+                    </a><a class="card" href="articles/distal-biceps-tendon-rupture.html" style="--dot:var(--c-elbow)"
+                        data-slug="distal-biceps-tendon-rupture" data-cat="elbow"
+                        data-tags="elbow biceps tendons trauma fixation" data-title="Distal Biceps Tendon Rupture"
+                        data-date="2026-04-30" data-conn="10"
+                        data-search="distal biceps tendon rupture diagnosis with the hook test and fixation options that restore supination strength and flexion endurance. elbow biceps tendons trauma fixation elbow">
+                        <div class="top"><span class="tag-pill"><span
+                                    class="dot"></span>Elbow</span><span>Condition</span><span>· 2026-04-30</span></div>
+                        <h3>Distal Biceps Tendon Rupture</h3>
+                        <p>Diagnosis with the hook test and fixation options that restore supination strength and
+                            flexion endurance.</p>
+                        <div class="meta"><span>2 min read</span><span>5 cards</span><span>10 strongly related</span>
+                        </div>
+                    </a><a class="card" href="articles/frozen-shoulder.html" style="--dot:var(--c-shoulder)"
+                        data-slug="frozen-shoulder" data-cat="shoulder"
+                        data-tags="shoulder glenohumeral nonoperative rehab arthroscopy"
+                        data-title="Frozen Shoulder (Adhesive Capsulitis)" data-date="2026-04-17" data-conn="11"
+                        data-search="frozen shoulder (adhesive capsulitis) a self-limiting but long stiff-shoulder condition, with a stage-based approach to injection, hydrodilatation and release. shoulder glenohumeral joint non-operative rehabilitation arthroscopy shoulder">
+                        <div class="top"><span class="tag-pill"><span
+                                    class="dot"></span>Shoulder</span><span>Condition</span><span>· 2026-04-17</span>
+                        </div>
+                        <h3>Frozen Shoulder (Adhesive Capsulitis)</h3>
+                        <p>A self-limiting but long stiff-shoulder condition, with a stage-based approach to injection,
+                            hydrodilatation and release.</p>
+                        <div class="meta"><span>2 min read</span><span>5 cards</span><span>11 strongly related</span>
+                        </div>
+                    </a><a class="card" href="articles/acromioclavicular-joint-injuries.html"
+                        style="--dot:var(--c-shoulder)" data-slug="acromioclavicular-joint-injuries" data-cat="shoulder"
+                        data-tags="shoulder instability trauma nonoperative arthroscopy"
+                        data-title="Acromioclavicular Joint Injuries" data-date="2026-04-03" data-conn="13"
+                        data-search="acromioclavicular joint injuries rockwood grading, the grey zone of type iii injuries, and reconstruction of the coracoclavicular ligaments. shoulder instability trauma non-operative arthroscopy shoulder">
+                        <div class="top"><span class="tag-pill"><span
+                                    class="dot"></span>Shoulder</span><span>Condition</span><span>· 2026-04-03</span>
+                        </div>
+                        <h3>Acromioclavicular Joint Injuries</h3>
+                        <p>Rockwood grading, the grey zone of type III injuries, and reconstruction of the
+                            coracoclavicular ligaments.</p>
+                        <div class="meta"><span>2 min read</span><span>5 cards</span><span>13 strongly related</span>
+                        </div>
+                    </a><a class="card" href="articles/clavicle-fractures.html" style="--dot:var(--c-shoulder)"
+                        data-slug="clavicle-fractures" data-cat="shoulder"
+                        data-tags="shoulder fracture fixation trauma nonoperative" data-title="Clavicle Fractures"
+                        data-date="2026-03-20" data-conn="12"
+                        data-search="clavicle fractures midshaft and lateral-third fractures: which ones need fixation and how to avoid hardware problems. shoulder fracture fixation trauma non-operative shoulder">
+                        <div class="top"><span class="tag-pill"><span
+                                    class="dot"></span>Shoulder</span><span>Condition</span><span>· 2026-03-20</span>
+                        </div>
+                        <h3>Clavicle Fractures</h3>
+                        <p>Midshaft and lateral-third fractures: which ones need fixation and how to avoid hardware
+                            problems.</p>
+                        <div class="meta"><span>2 min read</span><span>5 cards</span><span>12 strongly related</span>
+                        </div>
+                    </a><a class="card" href="articles/proximal-humerus-fractures.html" style="--dot:var(--c-shoulder)"
+                        data-slug="proximal-humerus-fractures" data-cat="shoulder"
+                        data-tags="shoulder fracture fixation arthroplasty trauma nonoperative"
+                        data-title="Proximal Humerus Fractures" data-date="2026-03-06" data-conn="13"
+                        data-search="proximal humerus fractures classification, the evidence for non-operative care, and the choice between plate, nail and arthroplasty. shoulder fracture fixation arthroplasty trauma non-operative shoulder">
+                        <div class="top"><span class="tag-pill"><span
+                                    class="dot"></span>Shoulder</span><span>Condition</span><span>· 2026-03-06</span>
+                        </div>
+                        <h3>Proximal Humerus Fractures</h3>
+                        <p>Classification, the evidence for non-operative care, and the choice between plate, nail and
+                            arthroplasty.</p>
+                        <div class="meta"><span>2 min read</span><span>6 cards</span><span>13 strongly related</span>
+                        </div>
+                    </a><a class="card" href="articles/latarjet-procedure.html" style="--dot:var(--c-shoulder)"
+                        data-slug="latarjet-procedure" data-cat="shoulder"
+                        data-tags="shoulder glenohumeral instability fixation trauma"
+                        data-title="The Latarjet Procedure" data-date="2026-02-23" data-conn="12"
+                        data-search="the latarjet procedure coracoid transfer for recurrent anterior instability: the triple-blocking effect, indications and neurological risks. shoulder glenohumeral joint instability fixation trauma shoulder">
+                        <div class="top"><span class="tag-pill"><span
+                                    class="dot"></span>Shoulder</span><span>Procedure</span><span>· 2026-02-23</span>
+                        </div>
+                        <h3>The Latarjet Procedure</h3>
+                        <p>Coracoid transfer for recurrent anterior instability: the triple-blocking effect, indications
+                            and neurological risks.</p>
+                        <div class="meta"><span>2 min read</span><span>5 cards</span><span>12 strongly related</span>
+                        </div>
+                    </a><a class="card" href="articles/anterior-shoulder-instability-bankart.html"
+                        style="--dot:var(--c-shoulder)" data-slug="anterior-shoulder-instability-bankart"
+                        data-cat="shoulder" data-tags="shoulder glenohumeral instability arthroscopy rehab"
+                        data-title="Anterior Shoulder Instability and Bankart Repair" data-date="2026-02-09"
+                        data-conn="8"
+                        data-search="anterior shoulder instability and bankart repair capsulolabral injury after dislocation, the role of bone loss in decision making, and arthroscopic bankart repair. shoulder glenohumeral joint instability arthroscopy rehabilitation shoulder">
+                        <div class="top"><span class="tag-pill"><span
+                                    class="dot"></span>Shoulder</span><span>Procedure</span><span>· 2026-02-09</span>
+                        </div>
+                        <h3>Anterior Shoulder Instability and Bankart Repair</h3>
+                        <p>Capsulolabral injury after dislocation, the role of bone loss in decision making, and
+                            arthroscopic Bankart repair.</p>
+                        <div class="meta"><span>2 min read</span><span>5 cards</span><span>8 strongly related</span>
+                        </div>
+                    </a><a class="card" href="articles/reverse-shoulder-arthroplasty.html"
+                        style="--dot:var(--c-shoulder)" data-slug="reverse-shoulder-arthroplasty" data-cat="shoulder"
+                        data-tags="shoulder glenohumeral rotator-cuff arthroplasty arthritis fracture"
+                        data-title="Reverse Total Shoulder Arthroplasty" data-date="2026-01-26" data-conn="10"
+                        data-search="reverse total shoulder arthroplasty how the reverse design restores elevation without a working cuff, who it suits, and the complications to plan for. shoulder glenohumeral joint rotator cuff arthroplasty arthritis fracture shoulder">
+                        <div class="top"><span class="tag-pill"><span
+                                    class="dot"></span>Shoulder</span><span>Procedure</span><span>· 2026-01-26</span>
+                        </div>
+                        <h3>Reverse Total Shoulder Arthroplasty</h3>
+                        <p>How the reverse design restores elevation without a working cuff, who it suits, and the
+                            complications to plan for.</p>
+                        <div class="meta"><span>2 min read</span><span>6 cards</span><span>10 strongly related</span>
+                        </div>
+                    </a><a class="card" href="articles/rotator-cuff-repair.html" style="--dot:var(--c-shoulder)"
+                        data-slug="rotator-cuff-repair" data-cat="shoulder"
+                        data-tags="shoulder rotator-cuff arthroscopy degenerative nonoperative rehab"
+                        data-title="Rotator Cuff Tears and Repair" data-date="2026-01-12" data-conn="11"
+                        data-search="rotator cuff tears and repair degenerative and traumatic cuff tears: when to treat non-operatively, how arthroscopic repair works, and what to do with irreparable tears. shoulder rotator cuff arthroscopy degenerative non-operative rehabilitation shoulder">
+                        <div class="top"><span class="tag-pill"><span
+                                    class="dot"></span>Shoulder</span><span>Condition</span><span>· 2026-01-12</span>
+                        </div>
+                        <h3>Rotator Cuff Tears and Repair</h3>
+                        <p>Degenerative and traumatic cuff tears: when to treat non-operatively, how arthroscopic repair
+                            works, and what to do with irreparable tears.</p>
+                        <div class="meta"><span>2 min read</span><span>6 cards</span><span>11 strongly related</span>
+                        </div>
+                    </a></div>
+                <div class="empty" id="empty">No articles match these filters.</div>
+            </div>
+        </section>
+        <section class="block" id="network">
+            <div class="wrap">
+                <div class="graph-block">
+                    <div class="graph-intro">
+                        <div><span class="eyebrow">Network graph</span>
+                            <h2 style="font-family:var(--font-display);margin:6px 0 8px;font-size:1.8rem">Every article,
+                                connected by what it shares</h2>
+                            <p>Each node is an article; each line means two articles share one or more cards (structure,
+                                pathology or approach). Thicker lines mean more shared cards (3 or more shown here).
+                                Drag, click to inspect, filter by region.</p>
+                        </div><a class="btn" href="graph.html">Open network graph →</a>
+                    </div>
+                    <div style="padding:14px 24px;border-bottom:1px solid var(--line)">
+                        <div class="legend" id="legend-index"></div>
+                    </div>
+                    <div class="graph-wrap" id="graph-index">
+                        <div class="g-panel" role="dialog" aria-label="Article details"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="block" id="topics">
+            <div class="wrap">
+                <div class="sec-head">
+                    <div><span class="eyebrow">Cards</span>
+                        <h2>Browse by topic</h2>
+                    </div>
+                </div>
+                <div class="kind">
+                    <h3>Region</h3>
+                    <div class="topic-grid"><a class="topic"
+                            href="index.html#tag=shoulder"><span>Shoulder</span><b>9</b></a><a class="topic"
+                            href="index.html#tag=elbow"><span>Elbow</span><b>5</b></a><a class="topic"
+                            href="index.html#tag=wrist"><span>Wrist</span><b>6</b></a><a class="topic"
+                            href="index.html#tag=hand"><span>Hand</span><b>8</b></a></div>
+                </div>
+                <div class="kind">
+                    <h3>Structure</h3>
+                    <div class="topic-grid"><a class="topic" href="index.html#tag=rotator-cuff"><span>Rotator
+                                cuff</span><b>2</b></a><a class="topic"
+                            href="index.html#tag=glenohumeral"><span>Glenohumeral joint</span><b>4</b></a><a
+                            class="topic" href="index.html#tag=biceps"><span>Biceps</span><b>1</b></a><a class="topic"
+                            href="index.html#tag=radius"><span>Radius</span><b>4</b></a><a class="topic"
+                            href="index.html#tag=carpus"><span>Carpus</span><b>3</b></a><a class="topic"
+                            href="index.html#tag=tendons"><span>Tendons</span><b>9</b></a><a class="topic"
+                            href="index.html#tag=median-nerve"><span>Median nerve</span><b>4</b></a><a class="topic"
+                            href="index.html#tag=ulnar-nerve"><span>Ulnar nerve</span><b>2</b></a><a class="topic"
+                            href="index.html#tag=radial-nerve"><span>Radial nerve</span><b>2</b></a><a class="topic"
+                            href="index.html#tag=brachial-plexus"><span>Brachial plexus</span><b>2</b></a></div>
+                </div>
+                <div class="kind">
+                    <h3>Pathology</h3>
+                    <div class="topic-grid"><a class="topic"
+                            href="index.html#tag=fracture"><span>Fracture</span><b>7</b></a><a class="topic"
+                            href="index.html#tag=instability"><span>Instability</span><b>6</b></a><a class="topic"
+                            href="index.html#tag=arthritis"><span>Arthritis</span><b>4</b></a><a class="topic"
+                            href="index.html#tag=degenerative"><span>Degenerative</span><b>4</b></a><a class="topic"
+                            href="index.html#tag=tendinopathy"><span>Tendinopathy</span><b>2</b></a><a class="topic"
+                            href="index.html#tag=nerve-compression"><span>Nerve compression</span><b>2</b></a><a
+                            class="topic" href="index.html#tag=trauma"><span>Trauma</span><b>13</b></a></div>
+                </div>
+                <div class="kind">
+                    <h3>Approach</h3>
+                    <div class="topic-grid"><a class="topic"
+                            href="index.html#tag=arthroscopy"><span>Arthroscopy</span><b>7</b></a><a class="topic"
+                            href="index.html#tag=arthroplasty"><span>Arthroplasty</span><b>4</b></a><a class="topic"
+                            href="index.html#tag=fixation"><span>Fixation</span><b>8</b></a><a class="topic"
+                            href="index.html#tag=nerve-surgery"><span>Nerve surgery</span><b>6</b></a><a class="topic"
+                            href="index.html#tag=tendon-transfer"><span>Tendon transfer</span><b>4</b></a><a
+                            class="topic" href="index.html#tag=microsurgery"><span>Microsurgery</span><b>3</b></a><a
+                            class="topic" href="index.html#tag=nonoperative"><span>Non-operative</span><b>14</b></a><a
+                            class="topic" href="index.html#tag=rehab"><span>Rehabilitation</span><b>10</b></a></div>
+                </div>
+            </div>
+        </section>
+        <section class="block" id="about">
+            <div class="wrap">
+                <div class="signup">
+                    <div><span class="eyebrow">Newsletter</span>
+                        <h2>New articles, straight to your inbox</h2>
+                        <p>Template sign-up block. Connect it to your email provider.</p>
+                    </div>
+                    <form id="signup-form"><label class="sr-only" for="em">Email</label><input id="em" type="email"
+                            placeholder="you@hospital.org" required><button class="btn"
+                            type="submit">Subscribe</button><small id="signup-msg">You can unsubscribe at any
+                            time.</small></form>
+                </div>
+            </div>
+        </section>
+    </main>
+    <aside class="notice" id="notice">
+        <div class="wrap">
+            <h2>Important notice</h2>
+            <p>This is a design template populated with <strong>sample educational content</strong>. It is a general
+                overview of upper limb surgery topics and is not a substitute for clinical judgement, local protocols or
+                the primary literature. Replace the sample text and add your own references before publishing.</p>
+            <p>Connections between articles are computed automatically from the cards (topics) they share. A shared card
+                indicates a common anatomical structure, pathology or approach, not a clinical recommendation.</p>
+            <div class="foot-links"><span>© Upper Limb Atlas template</span></div>
+            <ul class="sitemap" aria-label="All articles">
+                <li><a href="articles/acromioclavicular-joint-injuries.html"><span class="dot"
+                            style="--dot:var(--c-shoulder)"></span>Acromioclavicular Joint Injuries</a></li>
+                <li><a href="articles/anterior-shoulder-instability-bankart.html"><span class="dot"
+                            style="--dot:var(--c-shoulder)"></span>Anterior Shoulder Instability and Bankart Repair</a>
+                </li>
+                <li><a href="articles/brachial-plexus-injuries.html"><span class="dot"
+                            style="--dot:var(--c-reconstruction)"></span>Brachial Plexus Injuries</a></li>
+                <li><a href="articles/carpal-tunnel-syndrome.html"><span class="dot"
+                            style="--dot:var(--c-hand)"></span>Carpal Tunnel Syndrome and Release</a></li>
+                <li><a href="articles/clavicle-fractures.html"><span class="dot"
+                            style="--dot:var(--c-shoulder)"></span>Clavicle Fractures</a></li>
+                <li><a href="articles/cubital-tunnel-syndrome.html"><span class="dot"
+                            style="--dot:var(--c-elbow)"></span>Cubital Tunnel Syndrome</a></li>
+                <li><a href="articles/distal-biceps-tendon-rupture.html"><span class="dot"
+                            style="--dot:var(--c-elbow)"></span>Distal Biceps Tendon Rupture</a></li>
+                <li><a href="articles/distal-radius-fractures.html"><span class="dot"
+                            style="--dot:var(--c-wrist)"></span>Distal Radius Fractures</a></li>
+                <li><a href="articles/dupuytren-contracture.html"><span class="dot"
+                            style="--dot:var(--c-hand)"></span>Dupuytren Contracture</a></li>
+                <li><a href="articles/flexor-tendon-repair.html"><span class="dot"
+                            style="--dot:var(--c-hand)"></span>Flexor Tendon Repair</a></li>
+                <li><a href="articles/frozen-shoulder.html"><span class="dot"
+                            style="--dot:var(--c-shoulder)"></span>Frozen Shoulder (Adhesive Capsulitis)</a></li>
+                <li><a href="articles/lateral-epicondylitis.html"><span class="dot"
+                            style="--dot:var(--c-elbow)"></span>Lateral Epicondylitis (Tennis Elbow)</a></li>
+                <li><a href="articles/nerve-transfers-upper-limb.html"><span class="dot"
+                            style="--dot:var(--c-reconstruction)"></span>Nerve Transfers in the Upper Limb</a></li>
+                <li><a href="articles/postoperative-hand-therapy.html"><span class="dot"
+                            style="--dot:var(--c-reconstruction)"></span>Post-operative Rehabilitation and Hand
+                        Therapy</a></li>
+                <li><a href="articles/proximal-humerus-fractures.html"><span class="dot"
+                            style="--dot:var(--c-shoulder)"></span>Proximal Humerus Fractures</a></li>
+                <li><a href="articles/replantation-and-microsurgery.html"><span class="dot"
+                            style="--dot:var(--c-reconstruction)"></span>Replantation and Hand Microsurgery</a></li>
+                <li><a href="articles/reverse-shoulder-arthroplasty.html"><span class="dot"
+                            style="--dot:var(--c-shoulder)"></span>Reverse Total Shoulder Arthroplasty</a></li>
+                <li><a href="articles/rotator-cuff-repair.html"><span class="dot"
+                            style="--dot:var(--c-shoulder)"></span>Rotator Cuff Tears and Repair</a></li>
+                <li><a href="articles/scaphoid-fractures-and-nonunion.html"><span class="dot"
+                            style="--dot:var(--c-wrist)"></span>Scaphoid Fractures and Non-union</a></li>
+                <li><a href="articles/tfcc-injuries.html"><span class="dot" style="--dot:var(--c-wrist)"></span>TFCC
+                        Injuries and Ulnar-sided Wrist Pain</a></li>
+                <li><a href="articles/tendon-transfers-radial-nerve-palsy.html"><span class="dot"
+                            style="--dot:var(--c-reconstruction)"></span>Tendon Transfers for Radial Nerve Palsy</a>
+                </li>
+                <li><a href="articles/terrible-triad-elbow-injury.html"><span class="dot"
+                            style="--dot:var(--c-elbow)"></span>Terrible Triad Injury of the Elbow</a></li>
+                <li><a href="articles/latarjet-procedure.html"><span class="dot"
+                            style="--dot:var(--c-shoulder)"></span>The Latarjet Procedure</a></li>
+                <li><a href="articles/thumb-cmc-arthritis.html"><span class="dot"
+                            style="--dot:var(--c-hand)"></span>Thumb Carpometacarpal Arthritis</a></li>
+                <li><a href="articles/trigger-finger.html"><span class="dot" style="--dot:var(--c-hand)"></span>Trigger
+                        Finger</a></li>
+                <li><a href="articles/wrist-arthroscopy.html"><span class="dot"
+                            style="--dot:var(--c-wrist)"></span>Wrist Arthroscopy: Indications and Technique</a></li>
+            </ul>
         </div>
-      </div>
-      <div class="week">
-        <div class="week-label">Week 3 · Days 15–21 — Imaging, assessment &amp; wound care</div>
-        <div class="topics">
-          <div class="topic" onclick="toggle(this)"><div class="check"></div><div class="topic-body"><div class="topic-title">Plain X-ray interpretation — fracture classification, joint spaces, carpal alignment</div><div class="tags"><span class="tag tag-mcq">MCQ</span><span class="tag tag-oral">oral</span></div></div></div>
-          <div class="topic" onclick="toggle(this)"><div class="check"></div><div class="topic-body"><div class="topic-title">CT and MRI of wrist — TFCC anatomy and classification, carpal instability patterns</div><div class="tags"><span class="tag tag-mcq">MCQ</span><span class="tag tag-hy">high yield</span></div></div></div>
-          <div class="topic" onclick="toggle(this)"><div class="check"></div><div class="topic-body"><div class="topic-title">Clinical examination and neurological assessment — motor and sensory mapping, grip strength</div><div class="tags"><span class="tag tag-oral">oral</span></div></div></div>
-          <div class="topic" onclick="toggle(this)"><div class="check"></div><div class="topic-body"><div class="topic-title">Disability evaluation principles — impairment rating, AMA guides, occupational aspects</div><div class="tags"><span class="tag tag-oral">oral</span></div></div></div>
-          <div class="topic" onclick="toggle(this)"><div class="check"></div><div class="topic-body"><div class="topic-title">Wound management principles — contamination, closure timing, dressings, antibiotics</div><div class="tags"><span class="tag tag-mcq">MCQ</span><span class="tag tag-oral">oral</span></div></div></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- PHASE 2 -->
-  <div class="phase p2" id="ph2">
-    <div class="phase-header" onclick="togglePhase('ph2')" aria-expanded="false">
-      <span class="phase-badge">Phase 2 · Days 22–54</span>
-      <span class="phase-title">Trauma &amp; reconstructive surgery (core oral topic)</span>
-      <span class="phase-days">5 weeks</span>
-      <span class="chevron" aria-hidden="true">▾</span>
-    </div>
-    <div class="phase-body">
-      <div class="week">
-        <div class="week-label">Week 4–5 · Days 22–35 — Fractures &amp; dislocations</div>
-        <div class="topics">
-          <div class="topic" onclick="toggle(this)"><div class="check"></div><div class="topic-body"><div class="topic-title">Distal radius fractures — classification (AO, Frykman), surgical approaches, volar plate fixation</div><div class="tags"><span class="tag tag-oral">oral</span><span class="tag tag-hy">high yield</span></div></div></div>
-          <div class="topic" onclick="toggle(this)"><div class="check"></div><div class="topic-body"><div class="topic-title">Scaphoid fractures — blood supply, AVN risk, fixation techniques, malunion, non-union management</div><div class="tags"><span class="tag tag-oral">oral</span><span class="tag tag-hy">high yield</span></div></div></div>
-          <div class="topic" onclick="toggle(this)"><div class="check"></div><div class="topic-body"><div class="topic-title">Metacarpal fractures — Boxer's fracture, base fractures, closed vs open fixation principles</div><div class="tags"><span class="tag tag-mcq">MCQ</span><span class="tag tag-oral">oral</span></div></div></div>
-          <div class="topic" onclick="toggle(this)"><div class="check"></div><div class="topic-body"><div class="topic-title">Phalangeal fractures — condylar, articular, fixation, splinting protocols</div><div class="tags"><span class="tag tag-mcq">MCQ</span><span class="tag tag-oral">oral</span></div></div></div>
-          <div class="topic" onclick="toggle(this)"><div class="check"></div><div class="topic-body"><div class="topic-title">Ligament injuries and joint instability — SL ligament, LT ligament, thumb UCL (Stener lesion)</div><div class="tags"><span class="tag tag-oral">oral</span><span class="tag tag-hy">high yield</span></div></div></div>
-          <div class="topic" onclick="toggle(this)"><div class="check"></div><div class="topic-body"><div class="topic-title">Carpal instability — DISI, VISI, perilunate dislocation, intercalated segment instability</div><div class="tags"><span class="tag tag-mcq">MCQ</span><span class="tag tag-oral">oral</span><span class="tag tag-hy">high yield</span></div></div></div>
-          <div class="topic" onclick="toggle(this)"><div class="check"></div><div class="topic-body"><div class="topic-title">Malunions and non-unions — corrective osteotomy principles, bone grafting options</div><div class="tags"><span class="tag tag-oral">oral</span></div></div></div>
-        </div>
-      </div>
-      <div class="week">
-        <div class="week-label">Week 6–7 · Days 36–49 — Tendon injuries &amp; reconstruction</div>
-        <div class="topics">
-          <div class="topic" onclick="toggle(this)"><div class="check"></div><div class="topic-body"><div class="topic-title">Flexor tendon injuries — zones I–V, primary repair techniques, core and epitendinous sutures, rehab</div><div class="tags"><span class="tag tag-oral">oral</span><span class="tag tag-hy">high yield</span></div></div></div>
-          <div class="topic" onclick="toggle(this)"><div class="check"></div><div class="topic-body"><div class="topic-title">Extensor tendon injuries — zones, mallet finger, boutonnière deformity, central slip repair</div><div class="tags"><span class="tag tag-oral">oral</span><span class="tag tag-hy">high yield</span></div></div></div>
-          <div class="topic" onclick="toggle(this)"><div class="check"></div><div class="topic-body"><div class="topic-title">Tendon grafts — graft harvest sites, staged reconstruction, Hunter silicone rod technique</div><div class="tags"><span class="tag tag-mcq">MCQ</span><span class="tag tag-oral">oral</span></div></div></div>
-          <div class="topic" onclick="toggle(this)"><div class="check"></div><div class="topic-body"><div class="topic-title">Tendon transfers — principles, motor selection criteria, wrist drop, intrinsic palsy patterns</div><div class="tags"><span class="tag tag-oral">oral</span></div></div></div>
-        </div>
-      </div>
-      <div class="week">
-        <div class="week-label">Week 8 · Days 50–54 — Amputations, replantation &amp; burns</div>
-        <div class="topics">
-          <div class="topic" onclick="toggle(this)"><div class="check"></div><div class="topic-body"><div class="topic-title">Replantation — indications, contraindications, operative sequence, post-op monitoring, outcomes</div><div class="tags"><span class="tag tag-oral">oral</span><span class="tag tag-hy">high yield</span></div></div></div>
-          <div class="topic" onclick="toggle(this)"><div class="check"></div><div class="topic-body"><div class="topic-title">Amputations — amputation levels, revision surgery, prosthetic considerations</div><div class="tags"><span class="tag tag-oral">oral</span></div></div></div>
-          <div class="topic" onclick="toggle(this)"><div class="check"></div><div class="topic-body"><div class="topic-title">Burns of the hand — acute management, escharotomy indications, skin grafting, reconstruction</div><div class="tags"><span class="tag tag-mcq">MCQ</span><span class="tag tag-oral">oral</span></div></div></div>
-          <div class="topic" onclick="toggle(this)"><div class="check"></div><div class="topic-body"><div class="topic-title">Mutilating hand injuries — assessment, surgical priority, flap options for coverage</div><div class="tags"><span class="tag tag-oral">oral</span></div></div></div>
-          <div class="topic" onclick="toggle(this)"><div class="check"></div><div class="topic-body"><div class="topic-title">Rehabilitation principles — splinting, therapy protocols, return to work assessment</div><div class="tags"><span class="tag tag-oral">oral</span></div></div></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- PHASE 3 -->
-  <div class="phase p3" id="ph3">
-    <div class="phase-header" onclick="togglePhase('ph3')" aria-expanded="false">
-      <span class="phase-badge">Phase 3 · Days 55–78</span>
-      <span class="phase-title">Conditions, nerve, microsurgery &amp; systemic disease</span>
-      <span class="phase-days">4 weeks</span>
-      <span class="chevron" aria-hidden="true">▾</span>
-    </div>
-    <div class="phase-body">
-      <div class="week">
-        <div class="week-label">Week 9–10 · Days 55–68 — Nerve compression, brachial plexus &amp; microsurgery</div>
-        <div class="topics">
-          <div class="topic" onclick="toggle(this)"><div class="check"></div><div class="topic-body"><div class="topic-title">Carpal tunnel syndrome — pathophysiology, clinical diagnosis, NCS, decompression, recurrence</div><div class="tags"><span class="tag tag-mcq">MCQ</span><span class="tag tag-oral">oral</span><span class="tag tag-hy">high yield</span></div></div></div>
-          <div class="topic" onclick="toggle(this)"><div class="check"></div><div class="topic-body"><div class="topic-title">Cubital tunnel syndrome — ulnar nerve compression at elbow, transposition vs decompression</div><div class="tags"><span class="tag tag-mcq">MCQ</span><span class="tag tag-oral">oral</span></div></div></div>
-          <div class="topic" onclick="toggle(this)"><div class="check"></div><div class="topic-body"><div class="topic-title">Guyon's canal and other compression syndromes — radial tunnel, anterior interosseous, pronator</div><div class="tags"><span class="tag tag-mcq">MCQ</span></div></div></div>
-          <div class="topic" onclick="toggle(this)"><div class="check"></div><div class="topic-body"><div class="topic-title">Brachial plexus injuries — anatomy, Narakas classification, primary repair, nerve grafting, transfers</div><div class="tags"><span class="tag tag-oral">oral</span><span class="tag tag-hy">high yield</span></div></div></div>
-          <div class="topic" onclick="toggle(this)"><div class="check"></div><div class="topic-body"><div class="topic-title">Peripheral nerve repair — epineural vs fascicular repair, grafting, outcomes, nerve conduits</div><div class="tags"><span class="tag tag-mcq">MCQ</span><span class="tag tag-oral">oral</span></div></div></div>
-          <div class="topic" onclick="toggle(this)"><div class="check"></div><div class="topic-body"><div class="topic-title">Vascular disorders — Raynaud's phenomenon, vibration white finger, hypothenar hammer, ischaemia</div><div class="tags"><span class="tag tag-mcq">MCQ</span></div></div></div>
-          <div class="topic" onclick="toggle(this)"><div class="check"></div><div class="topic-body"><div class="topic-title">Microsurgery principles — vessel anastomosis, flap classification, free tissue transfer, monitoring</div><div class="tags"><span class="tag tag-oral">oral</span></div></div></div>
-        </div>
-      </div>
-      <div class="week">
-        <div class="week-label">Week 11–12 · Days 69–78 — Chronic conditions, systemic disease &amp; congenital</div>
-        <div class="topics">
-          <div class="topic" onclick="toggle(this)"><div class="check"></div><div class="topic-body"><div class="topic-title">Rheumatoid arthritis — pathology, medical management, synovectomy, Vaughan-Jackson, arthroplasty</div><div class="tags"><span class="tag tag-oral">oral</span><span class="tag tag-hy">high yield</span></div></div></div>
-          <div class="topic" onclick="toggle(this)"><div class="check"></div><div class="topic-body"><div class="topic-title">Osteoarthritis — thumb CMC joint, trapeziectomy with LRTI, wrist arthrodesis, wrist arthroplasty</div><div class="tags"><span class="tag tag-oral">oral</span><span class="tag tag-hy">high yield</span></div></div></div>
-          <div class="topic" onclick="toggle(this)"><div class="check"></div><div class="topic-body"><div class="topic-title">Dupuytren's contracture — epidemiology, pathology, fasciectomy, dermofasciectomy, collagenase</div><div class="tags"><span class="tag tag-oral">oral</span><span class="tag tag-hy">high yield</span></div></div></div>
-          <div class="topic" onclick="toggle(this)"><div class="check"></div><div class="topic-body"><div class="topic-title">Wrist arthroscopy — indications, portals, TFCC classification (Palmer), TFCC repair, SL assessment</div><div class="tags"><span class="tag tag-mcq">MCQ</span><span class="tag tag-oral">oral</span></div></div></div>
-          <div class="topic" onclick="toggle(this)"><div class="check"></div><div class="topic-body"><div class="topic-title">Hand infections — felon, flexor tenosynovitis (Kanavel signs), deep space, necrotising fasciitis</div><div class="tags"><span class="tag tag-mcq">MCQ</span><span class="tag tag-hy">high yield</span></div></div></div>
-          <div class="topic" onclick="toggle(this)"><div class="check"></div><div class="topic-body"><div class="topic-title">Tumours of the hand — ganglion, giant cell tumour, enchondroma, bone tumours, sarcoma, margins</div><div class="tags"><span class="tag tag-oral">oral</span></div></div></div>
-          <div class="topic" onclick="toggle(this)"><div class="check"></div><div class="topic-body"><div class="topic-title">Congenital malformations — syndactyly, polydactyly, radial club hand, pollicisation, symbrachydactyly</div><div class="tags"><span class="tag tag-oral">oral</span><span class="tag tag-hy">high yield</span></div></div></div>
-          <div class="topic" onclick="toggle(this)"><div class="check"></div><div class="topic-body"><div class="topic-title">Tetraplegia, spasticity, stroke — International Classification, tendon transfer surgery, functional outcomes</div><div class="tags"><span class="tag tag-oral">oral</span></div></div></div>
-          <div class="topic" onclick="toggle(this)"><div class="check"></div><div class="topic-body"><div class="topic-title">Overuse syndromes — De Quervain's, trigger finger, intersection syndrome, Dupuytren's staging</div><div class="tags"><span class="tag tag-mcq">MCQ</span><span class="tag tag-oral">oral</span></div></div></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- PHASE 4 -->
-  <div class="phase p4" id="ph4">
-    <div class="phase-header" onclick="togglePhase('ph4')" aria-expanded="false">
-      <span class="phase-badge">Phase 4 · Days 79–90</span>
-      <span class="phase-title">Consolidation, MCQ mock sittings &amp; oral examination preparation</span>
-      <span class="phase-days">12 days</span>
-      <span class="chevron" aria-hidden="true">▾</span>
-    </div>
-    <div class="phase-body">
-      <div class="week">
-        <div class="week-label">Days 79–83 — Rapid review &amp; gap-filling</div>
-        <div class="topics">
-          <div class="topic" onclick="toggle(this)"><div class="check"></div><div class="topic-body"><div class="topic-title">Revisit all high-yield topics flagged during study — focus on weak areas</div><div class="tags"><span class="tag tag-mcq">MCQ</span><span class="tag tag-oral">oral</span></div></div></div>
-          <div class="topic" onclick="toggle(this)"><div class="check"></div><div class="topic-body"><div class="topic-title">FESSH online self-assessment exam — full timed sitting (fessh.com)</div><div class="tags"><span class="tag tag-mcq">MCQ</span><span class="tag tag-hy">high yield</span></div></div></div>
-          <div class="topic" onclick="toggle(this)"><div class="check"></div><div class="topic-body"><div class="topic-title">ASSH self-assessment questionnaire (SASSH) practice — 30-question block</div><div class="tags"><span class="tag tag-mcq">MCQ</span></div></div></div>
-          <div class="topic" onclick="toggle(this)"><div class="check"></div><div class="topic-body"><div class="topic-title">Review EBHS glossary of conventional terms and marking structure document</div><div class="tags"><span class="tag tag-oral">oral</span></div></div></div>
-        </div>
-      </div>
-      <div class="week">
-        <div class="week-label">Days 84–87 — Oral examination preparation</div>
-        <div class="topics">
-          <div class="topic" onclick="toggle(this)"><div class="check"></div><div class="topic-body"><div class="topic-title">Structured oral practice — trauma cases with X-rays and clinical scenarios</div><div class="tags"><span class="tag tag-oral">oral</span><span class="tag tag-hy">high yield</span></div></div></div>
-          <div class="topic" onclick="toggle(this)"><div class="check"></div><div class="topic-body"><div class="topic-title">Structured oral practice — reconstructive surgery cases</div><div class="tags"><span class="tag tag-oral">oral</span><span class="tag tag-hy">high yield</span></div></div></div>
-          <div class="topic" onclick="toggle(this)"><div class="check"></div><div class="topic-body"><div class="topic-title">Oral practice — Dupuytren, rheumatoid arthritis, congenital, tumours (FESSH official oral topics)</div><div class="tags"><span class="tag tag-oral">oral</span></div></div></div>
-          <div class="topic" onclick="toggle(this)"><div class="check"></div><div class="topic-body"><div class="topic-title">EBHS marking descriptors review — understand what examiners score on knowledge depth and reasoning</div><div class="tags"><span class="tag tag-oral">oral</span></div></div></div>
-        </div>
-      </div>
-      <div class="week">
-        <div class="week-label">Days 88–90 — Final preparation</div>
-        <div class="topics">
-          <div class="topic" onclick="toggle(this)"><div class="check"></div><div class="topic-body"><div class="topic-title">Full timed MCQ mock — 60 true/false questions in 2 hours, simulate exam conditions</div><div class="tags"><span class="tag tag-mcq">MCQ</span></div></div></div>
-          <div class="topic" onclick="toggle(this)"><div class="check"></div><div class="topic-body"><div class="topic-title">Mock oral session with colleague or mentor — 2 × 40 minutes</div><div class="tags"><span class="tag tag-oral">oral</span></div></div></div>
-          <div class="topic" onclick="toggle(this)"><div class="check"></div><div class="topic-body"><div class="topic-title">Rest and light consolidation only — no new topics in the final 24–48 hours</div></div></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-</div>
-</section>
-
-<!-- ======================================================= TRACKER -->
-<section id="topics" class="section">
-  <button class="btn-reset" onclick="resetAll()">↺ Reset all topics</button>
-  <div class="progress-wrap">
-    <div class="progress-meta">
-      <span id="prog-text">0 of 0 topics complete</span>
-      <span id="prog-pct">0%</span>
-    </div>
-    <div class="progress-track"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
-  </div>
-  <p style="font-size:13px;color:var(--text-secondary);margin-bottom:1rem">Tick topics in the Schedule tab — progress updates here automatically. Progress is saved in your browser.</p>
-  <div class="summary-grid" id="summary-grid"></div>
-  <p style="font-size:12px;color:var(--text-tertiary);margin-top:1rem">💡 Tip: progress is stored in your browser's localStorage and survives page reloads.</p>
-</section>
-
-<!-- ======================================================= DAILY -->
-<section id="daily" class="section">
-  <p style="font-size:13px;color:var(--text-secondary);margin-bottom:1.25rem">Recommended daily structure — adapt to your working schedule. Total: 2.5–3 hours per day.</p>
-  <div class="day-grid">
-    <div class="day-card">
-      <div class="day-card-title">☀ Morning · 1–1.5 h</div>
-      <ul>
-        <li>Textbook reading — core topic of the week</li>
-        <li>Journal of Hand Surgery (European) article</li>
-        <li>Anatomy review or operative atlas</li>
-        <li>Make structured summary notes</li>
-      </ul>
-    </div>
-    <div class="day-card">
-      <div class="day-card-title">⚡ Midday · 30–45 min</div>
-      <ul>
-        <li>10–15 MCQ questions (FESSH / ASSH bank)</li>
-        <li>Review answers and rationale in full</li>
-        <li>Flag weak areas for next review cycle</li>
-      </ul>
-    </div>
-    <div class="day-card">
-      <div class="day-card-title">🌙 Evening · 45–60 min</div>
-      <ul>
-        <li>Clinical case review or logbook reflection</li>
-        <li>Oral practice — explain a topic aloud</li>
-        <li>Flashcard consolidation</li>
-        <li>Literature: one relevant systematic review</li>
-      </ul>
-    </div>
-    <div class="day-card">
-      <div class="day-card-title">📅 Weekly · Sundays</div>
-      <ul>
-        <li>Full mock MCQ block (20–30 questions)</li>
-        <li>Peer oral practice session — 40 minutes</li>
-        <li>Review and update topic tracker</li>
-        <li>Identify knowledge gaps for next week</li>
-      </ul>
-    </div>
-  </div>
-  <div class="tip-box">
-    <strong>Oral examination technique</strong>
-    <p>Examiners use EBHS marking descriptors assessing knowledge depth, logical management approach, and awareness of complications and alternatives. Structure every answer as: <strong>History → Examination → Imaging → Non-operative management → Surgical options → Rehabilitation → Complications</strong>. Practise this framework aloud for every major topic from Phase 2 and 3.</p>
-  </div>
-  <div class="tip-box" style="border-left-color: var(--teal-400); margin-top: 10px;">
-    <strong>MCQ examination technique</strong>
-    <p>The EBHS MCQ uses true/false format (not best-of-five). Each statement is marked independently. Avoid guessing if you are genuinely unsure — review the FESSH glossary of conventional terms so you interpret statements precisely. Aim for &gt;65% correct to give yourself a comfortable margin above the minimum threshold.</p>
-  </div>
-</section>
-
-<!-- ======================================================= RESOURCES -->
-<section id="resources" class="section">
-  <div class="res-section">
-    <h3>Primary textbooks</h3>
-    <div class="res-grid">
-      <div class="res-card"><div class="res-title">Green's Operative Hand Surgery (7th ed.)</div><div class="res-sub">Wolfe — comprehensive gold standard; use for surgical technique detail</div></div>
-      <div class="res-card"><div class="res-title">Plastic Surgery Vol. 6 — Hand &amp; Upper Limb</div><div class="res-sub">Neligan — strong reconstructive and flap coverage</div></div>
-      <div class="res-card"><div class="res-title">Lister's The Hand: Diagnosis and Indications</div><div class="res-sub">Classic European hand surgery text — concise and exam-focused</div></div>
-      <div class="res-card"><div class="res-title">Berger &amp; Weiss — Hand Surgery</div><div class="res-sub">Excellent for wrist anatomy and carpal instability</div></div>
-      <div class="res-card"><div class="res-title">Tubiana — Traité de Chirurgie de la Main</div><div class="res-sub">Foundational European reference — key historical perspective</div></div>
-    </div>
-  </div>
-
-  <div class="res-section">
-    <h3>Journals</h3>
-    <div class="res-grid">
-      <div class="res-card"><div class="res-title">Journal of Hand Surgery, European Volume</div><div class="res-sub">FESSH official journal — most relevant to EBHS exam content</div></div>
-      <div class="res-card"><div class="res-title">Journal of Hand Surgery (American)</div><div class="res-sub">High volume, strong trauma and basic science content</div></div>
-      <div class="res-card"><div class="res-title">Handchirurgie, Mikrochirurgie, Plastische Chirurgie</div><div class="res-sub">German-language European journal — good for European practice</div></div>
-      <div class="res-card"><div class="res-title">Chirurgie de la Main</div><div class="res-sub">French journal — European perspective on hand conditions</div></div>
-    </div>
-  </div>
-
-  <div class="res-section">
-    <h3>Online resources &amp; question banks</h3>
-    <div class="res-grid">
-      <div class="res-card"><div class="res-title">FESSH Online Self-Assessment</div><div class="res-sub"><a href="https://fessh.com/online-self-assessment-examination/" target="_blank">fessh.com</a> — official MCQ bank, closest to exam format</div></div>
-      <div class="res-card"><div class="res-title">ASSH Self-Assessment (SASSH)</div><div class="res-sub"><a href="https://www.assh.org" target="_blank">assh.org</a> — large validated question bank, good supplementary MCQ practice</div></div>
-      <div class="res-card"><div class="res-title">EBHS Exam Downloads</div><div class="res-sub"><a href="https://fessh.com/examination-committee/ebhs-diploma-examination/" target="_blank">fessh.com</a> — marking structure, glossary, oral instructions, marking descriptors</div></div>
-      <div class="res-card"><div class="res-title">BSSH EBHS Preparation Course</div><div class="res-sub"><a href="https://www.bssh.ac.uk" target="_blank">bssh.ac.uk</a> — annual UK-based preparation course (Manchester)</div></div>
-      <div class="res-card"><div class="res-title">PubMed / MEDLINE</div><div class="res-sub">Recent systematic reviews and RCTs on key hand surgery topics</div></div>
-      <div class="res-card"><div class="res-title">FESSH E-Library &amp; Webinars</div><div class="res-sub"><a href="https://fessh.com/e-library/" target="_blank">fessh.com/e-library</a> — free educational resources from FESSH</div></div>
-    </div>
-  </div>
-
-  <div class="res-section">
-    <h3>Key EBHS documents to download</h3>
-    <div class="res-grid">
-      <div class="res-card"><div class="res-title">EBHS Examination Guideline</div><div class="res-sub">Full logbook template, consolidation sheets, training diary</div></div>
-      <div class="res-card"><div class="res-title">Marking Descriptors for Orals</div><div class="res-sub">Understand exactly how oral answers are graded</div></div>
-      <div class="res-card"><div class="res-title">Glossary of Conventional Terms</div><div class="res-sub">Essential for true/false MCQ interpretation — read before exam</div></div>
-      <div class="res-card"><div class="res-title">Tips and Tricks for the Examination</div><div class="res-sub">Official FESSH PPT from experienced examiners</div></div>
-    </div>
-  </div>
-</section>
-
-<footer style="margin-top:3rem;padding-top:1.25rem;border-top:0.5px solid var(--border);font-size:12px;color:var(--text-tertiary)">
-  Based on the FESSH White Book on Hand Surgery in Europe and the EBHS curriculum. For official exam requirements visit <a href="https://fessh.com/examination-committee/ebhs-diploma-examination/" target="_blank">fessh.com</a>.
-</footer>
-
-<script>
-const STORE = 'ebhs_done_v2';
-
-function loadDone() {
-  try { return new Set(JSON.parse(localStorage.getItem(STORE) || '[]')); }
-  catch { return new Set(); }
-}
-function saveDone(set) {
-  try { localStorage.setItem(STORE, JSON.stringify([...set])); } catch {}
-}
-
-function getKey(el) {
-  return el.querySelector('.topic-title').textContent.trim().slice(0, 60);
-}
-
-let done = loadDone();
-
-function initTopics() {
-  document.querySelectorAll('.topic').forEach(t => {
-    const k = getKey(t);
-    if (done.has(k)) {
-      t.querySelector('.check').classList.add('done');
-    }
-  });
-  updateProgress();
-}
-
-function toggle(el) {
-  const check = el.querySelector('.check');
-  const k = getKey(el);
-  if (check.classList.contains('done')) {
-    check.classList.remove('done');
-    done.delete(k);
-  } else {
-    check.classList.add('done');
-    done.add(k);
-  }
-  saveDone(done);
-  updateProgress();
-  if (document.getElementById('topics').classList.contains('active')) buildSummary();
-}
-
-function updateProgress() {
-  const all = document.querySelectorAll('.topic');
-  const cnt = document.querySelectorAll('.check.done').length;
-  const pct = all.length ? Math.round(cnt / all.length * 100) : 0;
-  const fill = document.getElementById('prog-fill');
-  if (fill) { fill.style.width = pct + '%'; }
-  const pt = document.getElementById('prog-text');
-  if (pt) pt.textContent = cnt + ' of ' + all.length + ' topics complete';
-  const pp = document.getElementById('prog-pct');
-  if (pp) pp.textContent = pct + '%';
-}
-
-function buildSummary() {
-  const phases = [
-    { id: 'ph1', label: 'Phase 1 — Foundations' },
-    { id: 'ph2', label: 'Phase 2 — Trauma' },
-    { id: 'ph3', label: 'Phase 3 — Conditions' },
-    { id: 'ph4', label: 'Phase 4 — Revision' }
-  ];
-  const container = document.getElementById('summary-grid');
-  if (!container) return;
-  container.innerHTML = '';
-  phases.forEach(p => {
-    const ph = document.getElementById(p.id);
-    if (!ph) return;
-    const rows = ph.querySelectorAll('.topic');
-    const cnt = ph.querySelectorAll('.check.done').length;
-    const pct = rows.length ? Math.round(cnt / rows.length * 100) : 0;
-    const d = document.createElement('div');
-    d.className = 'metric';
-    d.innerHTML = '<div class="metric-label">' + p.label + '</div><div class="metric-val">' + pct + '%</div><div class="metric-sub">' + cnt + ' / ' + rows.length + ' topics</div>';
-    container.appendChild(d);
-  });
-  updateProgress();
-}
-
-function resetAll() {
-  if (!confirm('Reset all topic progress?')) return;
-  document.querySelectorAll('.check').forEach(c => c.classList.remove('done'));
-  done = new Set();
-  saveDone(done);
-  updateProgress();
-  buildSummary();
-}
-
-function show(id, btn) {
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  if (btn) btn.classList.add('active');
-  if (id === 'topics') buildSummary();
-}
-
-function togglePhase(id) {
-  const ph = document.getElementById(id);
-  const isOpen = ph.classList.contains('open');
-  ph.classList.toggle('open');
-  ph.querySelector('.phase-header').setAttribute('aria-expanded', !isOpen);
-}
-
-initTopics();
-</script>
+    </aside>
+    <script src="assets/data.js"></script>
+    <script src="assets/graph.js"></script>
+    <script src="assets/app.js"></script>
 </body>
+
 </html>
